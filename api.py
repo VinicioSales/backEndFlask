@@ -1,7 +1,7 @@
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 
-def integrando_google_planilha():
+def integrando_google_planilha(texto):
     #NOTE - integrando_google_planilha
     """
     Integra a planilha do google
@@ -18,9 +18,12 @@ def integrando_google_planilha():
     planilha = wks.worksheet('Página1')
     print(f"planilha: {planilha}")    
 
-    resposta = planilha.update_cell(1,1, 'teste')
+    with open('linha_planilha.txt', 'r') as arquivo:
+        linha_planilha = int(arquivo.read())
+    resposta = planilha.update_cell(linha_planilha,1, texto)
+    linha_planilha = str(linha_planilha + 1)
+    with open('linha_planilha.txt', 'w') as arquivo:
+        arquivo.write(linha_planilha)
     print(resposta)
 
     return resposta
-
-integrando_google_planilha()
